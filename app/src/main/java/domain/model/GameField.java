@@ -35,7 +35,15 @@ class GameField {
         StringBuilder s= new StringBuilder();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                s.append(get(i,j));
+                char ch;
+                if(get(i,j)==1){
+                    ch='X';
+                } else if(get(i,j)==-1){
+                    ch='O';
+                }else{
+                    ch='.';
+                }
+                s.append(ch);
                 s.append(' ');
             }
             s.append('\n');

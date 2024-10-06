@@ -21,6 +21,8 @@ public class Game {
     }
 
     public void set(int n, int value) {
+        if(field.data.get(n)!=0)
+            throw new RuntimeException("Illegal move");
         field.data.set(n, value);
     }
 

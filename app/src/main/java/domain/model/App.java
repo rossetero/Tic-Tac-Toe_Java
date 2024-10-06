@@ -6,16 +6,33 @@ package domain.model;
 import domain.service.GameService;
 import domain.service.GameServiceImpl;
 
+import java.util.Scanner;
+
 public class App {
 
 
     public static void main(String[] args) {
         Game game=new Game();
-        game.set(8,1);
-        game.set(0,1);
-        game.set(4,1);
         GameServiceImpl gs = new GameServiceImpl();
-        System.out.println(gs.checkWin(game,1).toString());
+        while (gs.isGameOver(game)==2){
+            Scanner scanner = new Scanner(System.in);
+            int huStep=Integer.parseInt(scanner.nextLine());
+            game.set(huStep,1);
+            System.out.println(game.toString());
+            int aiStep = gs.getNextStepFor(game);
+            game.set(aiStep,-1);
+            System.out.println(game.toString());
+        }
+        if(gs.isGameOver(game)==1){
+            System.out.println("Human won");
+        } else if (gs.isGameOver(game)==-1){
+            System.out.println("AI won");
+        } else {
+            System.out.println("Tie");
+        }
+
+
+
 
     }
 }

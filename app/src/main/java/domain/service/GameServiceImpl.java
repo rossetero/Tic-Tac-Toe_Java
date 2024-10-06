@@ -4,13 +4,15 @@ import domain.model.Game;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl implements GameService  {
 
-    private Integer aiPlayer = -1;
-    private Integer huPlayer = 1; //human player plays with crosses
-    int[][] winCombos = {
+    private int score=0;
+    private final Integer aiPlayer = -1;
+    private final Integer huPlayer = 1; //human player plays with crosses
+    private final int[][] winCombos = {
             {0, 1, 2},
             {3, 4, 5},
             {6, 7, 8},
@@ -53,9 +55,25 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public int[][] getNextStepFor(Game game) {
+    public int getNextStepFor(Game game) {
         ArrayList<Integer> availSpots = getEmptySpots(game);
-        return new int[3][3];
+//        if (checkWin(game, huPlayer)!=null) {
+//            // отнимаем от результата 10 очков
+//            score -=10;
+//            // если выиграет компьютер
+//        } else if (checkWin(game, aiPlayer)!=null) {
+//            // прибавляем 10 очков
+//            score+=10;
+//            // если ничья, то не менеяем очки
+//        }
+////        else if (availSpots.isEmpty()) {
+//        }
+        Random random = new Random();
+        int s;
+        do {
+            s = random.nextInt(9);
+        } while(!availSpots.contains(s));
+        return s;
     }
 
     @Override
@@ -64,7 +82,15 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean isGameOver(Game game) {
-        return true;
+    public int isGameOver(Game game) {
+        if (checkWin(game,huPlayer)!=null){
+            return 1;
+        } else if(checkWin(game,aiPlayer)!=null){
+            return -1;
+        } else if(getEmptySpots(game).isEmpty()){
+            return 0;
+        }
+        return 2;//game is not over
     }
+
 }
